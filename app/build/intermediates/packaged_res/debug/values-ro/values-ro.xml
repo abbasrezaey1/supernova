@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Voci instalate</string>
+    <string name="current_tts_locale">Voce prestabilită</string>
+    <string name="engine_settings">Setări TTS eSpeak</string>
+    <string name="error_message">Ne pare rău, dar pornirea eSpeak a eşuat.</string>
+    <string name="installing_voice_data">Se instalează datele vocale...</string>
+    <string name="loading">Se încarcă, aşteptaţi...</string>
+    <string name="sample_text">Aceasta este o mostră de text vorbit în %s</string>
+    <string name="set_default_message">eSpeak nu este setat ca motor prestabilit de transformare a textului în vorbire.</string>
+    <string name="setting_default_pitch">Înălţime prestabilită</string>
+    <string name="setting_default_rate">Multiplicator al ritmului vorbirii</string>
+    <string name="tts_settings">Setări TTS generale</string>
+    <string name="tts_settings_label">Setări TTS eSpeak</string>
+    <string name="voice_data_failed_message">eSpeak nu a putut instala datele vocale. Verificaţi cardul SD.</string>
+</resources>

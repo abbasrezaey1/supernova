@@ -1,0 +1,372 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.reecedunn.espeak"
+4    android:versionCode="22"
+5    android:versionName="1.52.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="33" />
+10
+11    <!-- 🎙 Permissions -->
+12    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+12-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:7:5-71
+12-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:7:22-68
+13    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+13-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:8:5-80
+13-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:8:22-77
+14    <uses-permission android:name="android.permission.INTERNET" />
+14-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:9:5-67
+14-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:9:22-64
+15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+15-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:10:5-79
+15-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:10:22-76
+16
+17    <!-- Optional (for smoother offline TTS/STT translation model download) -->
+18    <uses-permission android:name="android.permission.WAKE_LOCK" />
+18-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:13:5-68
+18-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:13:22-65
+19    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+19-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:14:5-77
+19-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:14:22-74
+20
+21    <!-- Declare that microphone and network features are used but not strictly required -->
+22    <uses-feature
+22-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:17:5-19:36
+23        android:name="android.hardware.microphone"
+23-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:18:9-51
+24        android:required="false" />
+24-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:19:9-33
+25    <uses-feature
+25-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:20:5-22:36
+26        android:name="android.hardware.touchscreen"
+26-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:21:9-52
+27        android:required="false" />
+27-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:22:9-33
+28
+29    <!-- ✅ Allow discovery as TTS engine -->
+30    <queries>
+30-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:25:5-33:15
+31        <intent>
+31-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:26:9-28:18
+32            <action android:name="android.intent.action.TTS_SERVICE" />
+32-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:27:13-72
+32-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:27:21-69
+33        </intent>
+34        <!-- 👇 also allow STT (speech recognizer) discovery -->
+35        <intent>
+35-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:30:9-32:18
+36            <action android:name="android.speech.RecognitionService" />
+36-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:31:13-72
+36-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:31:21-69
+37        </intent>
+38    </queries>
+39
+40    <permission
+40-->[androidx.core:core:1.13.0] C:\Users\ussp\.gradle\caches\transforms-4\4e2f9272ab397576884817d220fd54d1\transformed\core-1.13.0\AndroidManifest.xml:22:5-24:47
+41        android:name="com.reecedunn.espeak.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+41-->[androidx.core:core:1.13.0] C:\Users\ussp\.gradle\caches\transforms-4\4e2f9272ab397576884817d220fd54d1\transformed\core-1.13.0\AndroidManifest.xml:23:9-81
+42        android:protectionLevel="signature" />
+42-->[androidx.core:core:1.13.0] C:\Users\ussp\.gradle\caches\transforms-4\4e2f9272ab397576884817d220fd54d1\transformed\core-1.13.0\AndroidManifest.xml:24:9-44
+43
+44    <uses-permission android:name="com.reecedunn.espeak.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+44-->[androidx.core:core:1.13.0] C:\Users\ussp\.gradle\caches\transforms-4\4e2f9272ab397576884817d220fd54d1\transformed\core-1.13.0\AndroidManifest.xml:26:5-97
+44-->[androidx.core:core:1.13.0] C:\Users\ussp\.gradle\caches\transforms-4\4e2f9272ab397576884817d220fd54d1\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
+45
+46    <application
+46-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:35:5-111:19
+47        android:name="com.reecedunn.espeak.EspeakApp"
+47-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:36:9-54
+48        android:allowBackup="true"
+48-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:37:9-35
+49        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+49-->[androidx.core:core:1.13.0] C:\Users\ussp\.gradle\caches\transforms-4\4e2f9272ab397576884817d220fd54d1\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
+50        android:debuggable="true"
+51        android:extractNativeLibs="true"
+52        android:icon="@mipmap/icon"
+52-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:40:9-36
+53        android:label="@string/app_name"
+53-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:39:9-41
+54        android:roundIcon="@mipmap/icon"
+54-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:41:9-41
+55        android:testOnly="true"
+56        android:theme="@style/AppTheme"
+56-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:42:9-40
+57        android:usesCleartextTraffic="true" >
+57-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:38:9-44
+58
+59        <!-- 🗣 eSpeak NG self-contained TTS service -->
+60        <service
+60-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:45:9-57:19
+61            android:name="com.reecedunn.espeak.TtsService"
+61-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:46:13-39
+62            android:directBootAware="true"
+62-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:48:13-43
+63            android:exported="true"
+63-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:49:13-36
+64            android:label="@string/app_name" >
+64-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:47:13-45
+65            <intent-filter>
+65-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:50:13-53:29
+66                <action android:name="android.intent.action.TTS_SERVICE" />
+66-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:27:13-72
+66-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:27:21-69
+67
+68                <category android:name="android.intent.category.DEFAULT" />
+68-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:52:17-76
+68-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:52:27-73
+69            </intent-filter>
+70
+71            <meta-data
+71-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:54:13-56:54
+72                android:name="android.speech.tts"
+72-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:55:17-50
+73                android:resource="@xml/tts_engine" />
+73-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:56:17-51
+74        </service>
+75
+76        <!-- 📦 eSpeak helper activities -->
+77        <activity
+77-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:60:9-68:20
+78            android:name="com.reecedunn.espeak.DownloadVoiceData"
+78-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:61:13-46
+79            android:exported="true"
+79-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:63:13-36
+80            android:theme="@android:style/Theme.Dialog" >
+80-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:62:13-56
+81            <intent-filter>
+81-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:64:13-67:29
+82                <action android:name="android.speech.tts.engine.INSTALL_TTS_DATA" />
+82-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:65:17-85
+82-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:65:25-82
+83
+84                <category android:name="android.intent.category.DEFAULT" />
+84-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:52:17-76
+84-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:52:27-73
+85            </intent-filter>
+86        </activity>
+87        <activity
+87-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:70:9-78:20
+88            android:name="com.reecedunn.espeak.CheckVoiceData"
+88-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:71:13-43
+89            android:exported="true"
+89-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:73:13-36
+90            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+90-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:72:13-72
+91            <intent-filter>
+91-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:74:13-77:29
+92                <action android:name="android.speech.tts.engine.CHECK_TTS_DATA" />
+92-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:75:17-83
+92-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:75:25-80
+93
+94                <category android:name="android.intent.category.DEFAULT" />
+94-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:52:17-76
+94-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:52:27-73
+95            </intent-filter>
+96        </activity>
+97        <activity
+97-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:80:9-88:20
+98            android:name="com.reecedunn.espeak.GetSampleText"
+98-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:81:13-42
+99            android:exported="true"
+99-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:83:13-36
+100            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+100-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:82:13-72
+101            <intent-filter>
+101-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:84:13-87:29
+102                <action android:name="android.speech.tts.engine.GET_SAMPLE_TEXT" />
+102-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:85:17-84
+102-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:85:25-81
+103
+104                <category android:name="android.intent.category.DEFAULT" />
+104-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:52:17-76
+104-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:52:27-73
+105            </intent-filter>
+106        </activity>
+107        <activity
+107-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:90:9-98:20
+108            android:name="com.reecedunn.espeak.TtsSettingsActivity"
+108-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:91:13-48
+109            android:exported="true"
+109-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:93:13-36
+110            android:label="@string/tts_settings_label" >
+110-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:92:13-55
+111            <intent-filter>
+111-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:94:13-97:29
+112                <action android:name="android.speech.tts.engine.CONFIGURE_ENGINE" />
+112-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:95:17-85
+112-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:95:25-82
+113
+114                <category android:name="android.intent.category.DEFAULT" />
+114-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:52:17-76
+114-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:52:27-73
+115            </intent-filter>
+116        </activity>
+117
+118        <!-- 🧠 Main UI with Speech Recognition + Translation + eSpeak -->
+119        <activity
+119-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:101:9-109:20
+120            android:name="com.reecedunn.espeak.eSpeakActivity"
+120-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:102:13-43
+121            android:exported="true"
+121-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:104:13-36
+122            android:label="@string/app_name" >
+122-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:103:13-45
+123            <intent-filter>
+123-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:105:13-108:29
+124                <action android:name="android.intent.action.MAIN" />
+124-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:106:17-69
+124-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:106:25-66
+125
+126                <category android:name="android.intent.category.LAUNCHER" />
+126-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:107:17-77
+126-->C:\Users\ussp\AndroidStudioProjects\espeak\app\AndroidManifest.xml:107:27-74
+127            </intent-filter>
+128        </activity>
+129
+130        <service
+130-->[com.google.mlkit:translate:17.0.2] C:\Users\ussp\.gradle\caches\transforms-4\20f55222c6ceb362a35bd78c35677130\transformed\jetified-translate-17.0.2\AndroidManifest.xml:11:9-17:19
+131            android:name="com.google.mlkit.common.internal.MlKitComponentDiscoveryService"
+131-->[com.google.mlkit:translate:17.0.2] C:\Users\ussp\.gradle\caches\transforms-4\20f55222c6ceb362a35bd78c35677130\transformed\jetified-translate-17.0.2\AndroidManifest.xml:12:13-91
+132            android:directBootAware="true"
+132-->[com.google.mlkit:common:18.10.0] C:\Users\ussp\.gradle\caches\transforms-4\280d05b850c36875ccf9559755535d3b\transformed\jetified-common-18.10.0\AndroidManifest.xml:17:13-43
+133            android:exported="false" >
+133-->[com.google.mlkit:translate:17.0.2] C:\Users\ussp\.gradle\caches\transforms-4\20f55222c6ceb362a35bd78c35677130\transformed\jetified-translate-17.0.2\AndroidManifest.xml:13:13-37
+134            <meta-data
+134-->[com.google.mlkit:translate:17.0.2] C:\Users\ussp\.gradle\caches\transforms-4\20f55222c6ceb362a35bd78c35677130\transformed\jetified-translate-17.0.2\AndroidManifest.xml:14:13-16:85
+135                android:name="com.google.firebase.components:com.google.mlkit.nl.translate.NaturalLanguageTranslateRegistrar"
+135-->[com.google.mlkit:translate:17.0.2] C:\Users\ussp\.gradle\caches\transforms-4\20f55222c6ceb362a35bd78c35677130\transformed\jetified-translate-17.0.2\AndroidManifest.xml:15:17-126
+136                android:value="com.google.firebase.components.ComponentRegistrar" />
+136-->[com.google.mlkit:translate:17.0.2] C:\Users\ussp\.gradle\caches\transforms-4\20f55222c6ceb362a35bd78c35677130\transformed\jetified-translate-17.0.2\AndroidManifest.xml:16:17-82
+137            <meta-data
+137-->[com.google.mlkit:common:18.10.0] C:\Users\ussp\.gradle\caches\transforms-4\280d05b850c36875ccf9559755535d3b\transformed\jetified-common-18.10.0\AndroidManifest.xml:20:13-22:85
+138                android:name="com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar"
+138-->[com.google.mlkit:common:18.10.0] C:\Users\ussp\.gradle\caches\transforms-4\280d05b850c36875ccf9559755535d3b\transformed\jetified-common-18.10.0\AndroidManifest.xml:21:17-120
+139                android:value="com.google.firebase.components.ComponentRegistrar" />
+139-->[com.google.mlkit:common:18.10.0] C:\Users\ussp\.gradle\caches\transforms-4\280d05b850c36875ccf9559755535d3b\transformed\jetified-common-18.10.0\AndroidManifest.xml:22:17-82
+140        </service>
+141
+142        <provider
+142-->[com.google.mlkit:common:18.10.0] C:\Users\ussp\.gradle\caches\transforms-4\280d05b850c36875ccf9559755535d3b\transformed\jetified-common-18.10.0\AndroidManifest.xml:9:9-13:38
+143            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
+143-->[com.google.mlkit:common:18.10.0] C:\Users\ussp\.gradle\caches\transforms-4\280d05b850c36875ccf9559755535d3b\transformed\jetified-common-18.10.0\AndroidManifest.xml:10:13-78
+144            android:authorities="com.reecedunn.espeak.mlkitinitprovider"
+144-->[com.google.mlkit:common:18.10.0] C:\Users\ussp\.gradle\caches\transforms-4\280d05b850c36875ccf9559755535d3b\transformed\jetified-common-18.10.0\AndroidManifest.xml:11:13-69
+145            android:exported="false"
+145-->[com.google.mlkit:common:18.10.0] C:\Users\ussp\.gradle\caches\transforms-4\280d05b850c36875ccf9559755535d3b\transformed\jetified-common-18.10.0\AndroidManifest.xml:12:13-37
+146            android:initOrder="99" />
+146-->[com.google.mlkit:common:18.10.0] C:\Users\ussp\.gradle\caches\transforms-4\280d05b850c36875ccf9559755535d3b\transformed\jetified-common-18.10.0\AndroidManifest.xml:13:13-35
+147        <provider
+147-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ussp\.gradle\caches\transforms-4\557a0ce9f57e503f8491f3988df9b5a8\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+148            android:name="androidx.startup.InitializationProvider"
+148-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ussp\.gradle\caches\transforms-4\557a0ce9f57e503f8491f3988df9b5a8\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:25:13-67
+149            android:authorities="com.reecedunn.espeak.androidx-startup"
+149-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ussp\.gradle\caches\transforms-4\557a0ce9f57e503f8491f3988df9b5a8\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:26:13-68
+150            android:exported="false" >
+150-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ussp\.gradle\caches\transforms-4\557a0ce9f57e503f8491f3988df9b5a8\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:27:13-37
+151            <meta-data
+151-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ussp\.gradle\caches\transforms-4\557a0ce9f57e503f8491f3988df9b5a8\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+152                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+152-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ussp\.gradle\caches\transforms-4\557a0ce9f57e503f8491f3988df9b5a8\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:30:17-75
+153                android:value="androidx.startup" />
+153-->[androidx.emoji2:emoji2:1.3.0] C:\Users\ussp\.gradle\caches\transforms-4\557a0ce9f57e503f8491f3988df9b5a8\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:31:17-49
+154            <meta-data
+154-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\ussp\.gradle\caches\transforms-4\332969ed06da7febbee1bf31d0c751b7\transformed\jetified-lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+155                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+155-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\ussp\.gradle\caches\transforms-4\332969ed06da7febbee1bf31d0c751b7\transformed\jetified-lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+156                android:value="androidx.startup" />
+156-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\ussp\.gradle\caches\transforms-4\332969ed06da7febbee1bf31d0c751b7\transformed\jetified-lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+157            <meta-data
+157-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+158                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+158-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+159                android:value="androidx.startup" />
+159-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+160        </provider>
+161
+162        <activity
+162-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\ussp\.gradle\caches\transforms-4\59af0e29d27c2df340da69224213f7c8\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
+163            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+163-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\ussp\.gradle\caches\transforms-4\59af0e29d27c2df340da69224213f7c8\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:19-85
+164            android:exported="false"
+164-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\ussp\.gradle\caches\transforms-4\59af0e29d27c2df340da69224213f7c8\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:22:19-43
+165            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+165-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\ussp\.gradle\caches\transforms-4\59af0e29d27c2df340da69224213f7c8\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:21:19-78
+166
+167        <meta-data
+167-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\ussp\.gradle\caches\transforms-4\857c293ccee6f4356affbc67580c2bee\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+168            android:name="com.google.android.gms.version"
+168-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\ussp\.gradle\caches\transforms-4\857c293ccee6f4356affbc67580c2bee\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+169            android:value="@integer/google_play_services_version" />
+169-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\ussp\.gradle\caches\transforms-4\857c293ccee6f4356affbc67580c2bee\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+170
+171        <receiver
+171-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+172            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+172-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+173            android:directBootAware="false"
+173-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+174            android:enabled="true"
+174-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+175            android:exported="true"
+175-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+176            android:permission="android.permission.DUMP" >
+176-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+177            <intent-filter>
+177-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+178                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+178-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+178-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+179            </intent-filter>
+180            <intent-filter>
+180-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+181                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+181-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+181-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+182            </intent-filter>
+183            <intent-filter>
+183-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+184                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+184-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+184-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+185            </intent-filter>
+186            <intent-filter>
+186-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+187                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+187-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+187-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\ussp\.gradle\caches\transforms-4\eff81e5fda1c4760a045e9afcc0c9ece\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+188            </intent-filter>
+189        </receiver>
+190
+191        <service
+191-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\ussp\.gradle\caches\transforms-4\e89141dece4d5d9f112e60c0952e27b0\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:29:9-35:19
+192            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+192-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\ussp\.gradle\caches\transforms-4\e89141dece4d5d9f112e60c0952e27b0\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:30:13-103
+193            android:exported="false" >
+193-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\ussp\.gradle\caches\transforms-4\e89141dece4d5d9f112e60c0952e27b0\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:31:13-37
+194            <meta-data
+194-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\ussp\.gradle\caches\transforms-4\e89141dece4d5d9f112e60c0952e27b0\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:32:13-34:39
+195                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+195-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\ussp\.gradle\caches\transforms-4\e89141dece4d5d9f112e60c0952e27b0\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:33:17-94
+196                android:value="cct" />
+196-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\ussp\.gradle\caches\transforms-4\e89141dece4d5d9f112e60c0952e27b0\transformed\jetified-transport-backend-cct-2.3.3\AndroidManifest.xml:34:17-36
+197        </service>
+198        <service
+198-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\ussp\.gradle\caches\transforms-4\1b305cc4a61ffb87d7ad5b853fd238c8\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:26:9-30:19
+199            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+199-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\ussp\.gradle\caches\transforms-4\1b305cc4a61ffb87d7ad5b853fd238c8\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:27:13-117
+200            android:exported="false"
+200-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\ussp\.gradle\caches\transforms-4\1b305cc4a61ffb87d7ad5b853fd238c8\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:28:13-37
+201            android:permission="android.permission.BIND_JOB_SERVICE" >
+201-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\ussp\.gradle\caches\transforms-4\1b305cc4a61ffb87d7ad5b853fd238c8\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:29:13-69
+202        </service>
+203
+204        <receiver
+204-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\ussp\.gradle\caches\transforms-4\1b305cc4a61ffb87d7ad5b853fd238c8\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:32:9-34:40
+205            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+205-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\ussp\.gradle\caches\transforms-4\1b305cc4a61ffb87d7ad5b853fd238c8\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:33:13-132
+206            android:exported="false" />
+206-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\ussp\.gradle\caches\transforms-4\1b305cc4a61ffb87d7ad5b853fd238c8\transformed\jetified-transport-runtime-2.2.6\AndroidManifest.xml:34:13-37
+207    </application>
+208
+209</manifest>

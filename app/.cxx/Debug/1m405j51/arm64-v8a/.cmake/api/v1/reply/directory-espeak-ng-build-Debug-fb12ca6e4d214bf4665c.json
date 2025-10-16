@@ -1,0 +1,62 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"C:/Users/ussp/AndroidStudioProjects/espeak/app/espeak-src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 36,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "bin",
+			"paths" : 
+			[
+				"C:/Users/ussp/AndroidStudioProjects/espeak/app/build/intermediates/cxx/Debug/1m405j51/obj/arm64-v8a/espeak-ng"
+			],
+			"targetId" : "espeak-ng-bin::@5b135590114ded73e8ef",
+			"targetIndex" : 1,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "include",
+			"paths" : 
+			[
+				"C:/Users/ussp/AndroidStudioProjects/espeak/app/espeak-src/include/espeak",
+				"C:/Users/ussp/AndroidStudioProjects/espeak/app/espeak-src/include/espeak-ng"
+			],
+			"type" : "directory"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "espeak-ng-build",
+		"source" : "C:/Users/ussp/AndroidStudioProjects/espeak/app/espeak-src"
+	}
+}

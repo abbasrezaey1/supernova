@@ -1,0 +1,45 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"C:/Users/ussp/AndroidStudioProjects/espeak/app/espeak-src/libespeak-ng/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 137,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"espeak-ng-build/libespeak-ng/libespeak-ng.a"
+			],
+			"targetId" : "espeak-ng::@3e0798b8e9e8224bda14",
+			"targetIndex" : 0,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "espeak-ng-build/libespeak-ng",
+		"source" : "C:/Users/ussp/AndroidStudioProjects/espeak/app/espeak-src/libespeak-ng"
+	}
+}

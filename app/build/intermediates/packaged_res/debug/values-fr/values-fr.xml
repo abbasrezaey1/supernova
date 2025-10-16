@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Voix installées</string>
+    <string name="current_tts_locale">Voix par défaut</string>
+    <string name="engine_settings">Paramètres de synthèse vocale eSpeak</string>
+    <string name="error_message">Désolé, impossible de lancer eSpeak.</string>
+    <string name="installing_voice_data">Installation des données vocales en cours…</string>
+    <string name="loading">Chargement en cours, veuillez patienter…</string>
+    <string name="sample_text">Voici un exemple de texte énoncé en %s.</string>
+    <string name="set_default_message">eSpeak n\'est pas votre moteur de synthèse vocale par défaut.</string>
+    <string name="setting_default_pitch">Tonalité par défaut</string>
+    <string name="setting_default_rate">Multiplicateur de la cadence</string>
+    <string name="tts_settings">Paramètres généraux de synthèse vocale</string>
+    <string name="tts_settings_label">Paramètres de synthèse vocale eSpeak</string>
+    <string name="voice_data_failed_message">Échec de l\'installation des données vocales par eSpeak. Veuillez vérifier votre carte SD.</string>
+</resources>

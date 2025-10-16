@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "espeak-ng-build/speechPlayer",
+		"source" : "C:/Users/ussp/AndroidStudioProjects/espeak/app/espeak-src/speechPlayer"
+	}
+}

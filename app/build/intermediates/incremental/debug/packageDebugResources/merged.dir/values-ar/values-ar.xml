@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">الأصوات المثبتة</string>
+    <string name="current_tts_locale">الصوت الافتراضي</string>
+    <string name="engine_settings">إعدادات eSpeak TTS</string>
+    <string name="error_message">عذرًا، أخفق بدء eSpeak. هل تريد إرسال تقرير بالخطأ؟</string>
+    <string name="installing_voice_data">جارٍ تثبيت البيانات الصوتية…</string>
+    <string name="loading">جارٍ التحميل، يُرجى الانتظار...</string>
+    <string name="sample_text">هذه عينة من النص الذي تم نطقه في %s</string>
+    <string name="set_default_message">لم يتم تعيين eSpeak كمحرك افتراضي لتحويل النص إلى كلام. هل تريد تعيينه الآن؟</string>
+    <string name="setting_default_pitch">المستوى الافتراضي</string>
+    <string name="setting_default_rate">مضاعف معدل الكلام</string>
+    <string name="tts_settings">إعدادات TTS العامة</string>
+    <string name="tts_settings_label">إعدادات eSpeak TTS</string>
+    <string name="voice_data_failed_message">أخفق eSpeak في تثبيت البيانات الصوتية. الرجاء التحقق من بطاقة SD.</string>
+</resources>

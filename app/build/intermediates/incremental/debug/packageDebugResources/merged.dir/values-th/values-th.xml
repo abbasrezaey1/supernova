@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">เสียงที่ติดตั้ง</string>
+    <string name="current_tts_locale">เสียงเริ่มต้น</string>
+    <string name="engine_settings">การตั้งค่า TTS ของ eSpeak</string>
+    <string name="error_message">ขออภัย eSpeak ไม่สามารถเริ่มต้นทำงาน คุณต้องการส่งรายงานข้อผิดพลาดหรือไม่</string>
+    <string name="installing_voice_data">กำลังติดตั้งข้อมูลเสียง...</string>
+    <string name="loading">กำลังโหลด โปรดรอสักครู่...</string>
+    <string name="sample_text">นี่เป็นตัวอย่างของข้อความที่พูดใน %s</string>
+    <string name="set_default_message">eSpeak ไม่ได้ถูกกำหนดให้เป็นเครื่องมืออ่านออกเสียงข้อความเริ่มต้นของคุณ คุณต้องการกำหนดเดี๋ยวนี้หรือไม่</string>
+    <string name="setting_default_pitch">ระดับเสียงเริ่มต้น</string>
+    <string name="setting_default_rate">ตัวคูณความเร็วการพูด</string>
+    <string name="tts_settings">การตั้งค่า TTS ทั่วไป</string>
+    <string name="tts_settings_label">การตั้งค่า TTS ของ eSpeak</string>
+    <string name="voice_data_failed_message">eSpeak ไม่สามารถติดตั้งข้อมูลเสียง โปรดตรวจสอบการ์ด SD ของคุณ</string>
+</resources>

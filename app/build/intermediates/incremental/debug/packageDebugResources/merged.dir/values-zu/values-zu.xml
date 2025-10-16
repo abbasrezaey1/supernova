@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Amazwi afakiwe</string>
+    <string name="current_tts_locale">Izwi olithola likhona</string>
+    <string name="engine_settings">Izilungiselelo  ze-eSpeak TTS</string>
+    <string name="error_message">Uxolo, i-eSpeak yehlulekile ukuqala.</string>
+    <string name="installing_voice_data">Ifaka idatha yezwi</string>
+    <string name="loading">Iyalayisha, ucelwa ukuthi ulinde...</string>
+    <string name="sample_text">Lena yisampula yombhalo okhulunywa kwi %s</string>
+    <string name="set_default_message">I-eSpeak ayisethwanga njengenjini yombhalo-uya-enkulumweni oyithola ikhona.</string>
+    <string name="setting_default_pitch">Izinga lezwi olithola likhona</string>
+    <string name="setting_default_rate">Okuphindaphinda ukushesha kwenkulumo</string>
+    <string name="tts_settings">Izilungiselelo ze-TTS ezejwayelekile</string>
+    <string name="tts_settings_label">Izilungiselelo ze-eSpeak TTS</string>
+    <string name="voice_data_failed_message">I-eSpeak yehlulekile ukulayisha idatha yezwi. Uyacelwa ukuthi ubheke ikhadi lakho le-SD.</string>
+</resources>

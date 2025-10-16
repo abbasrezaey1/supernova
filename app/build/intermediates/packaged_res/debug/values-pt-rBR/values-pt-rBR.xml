@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Vozes instaladas</string>
+    <string name="current_tts_locale">Voz padrão</string>
+    <string name="engine_settings">Ajustes de TTS do eSpeak</string>
+    <string name="error_message">Desculpe, o eSpeak fracassou em iniciar.</string>
+    <string name="espeak_pitch_range">Variação de tom</string>
+    <string name="espeak_variant">Variante de voz</string>
+    <string name="espeak_volume">Volume</string>
+    <string name="formatter_percentage">%s%%</string>
+    <string name="formatter_wpm">%s WPM</string>
+    <string name="installing_voice_data">Instalando dados de voz…</string>
+    <string name="loading">Carregando, por favor aguarde…</string>
+    <string name="resetToDefault">Restaurar padrão</string>
+    <string name="sample_text">Esta é uma amostra de texto falado em %s</string>
+    <string name="set_default_message">O eSpeak não está configurado como o mecanismo padrão de texto para fala.</string>
+    <string name="setting_default_pitch">Tom</string>
+    <string name="setting_default_rate">Velocidade</string>
+    <string name="speak">Speak</string>
+    <string name="ssml">Carregar modelo SSML</string>
+    <string name="status">Status</string>
+    <string name="synthesis_demo">Insira texto a falar:</string>
+    <string name="tts_settings">Ajustes gerais de TTS</string>
+    <string name="tts_settings_label">Ajustes de TTS do eSpeak</string>
+    <string name="tts_version">Versão de eSpeak</string>
+    <string name="voice_data_failed_message">O eSpeak fracassou ao instalar os dados de voz. Por favor verifique o cartão SD.</string>
+</resources>

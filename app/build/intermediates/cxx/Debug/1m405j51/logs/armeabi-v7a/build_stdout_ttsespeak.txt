@@ -1,0 +1,48 @@
+ninja: Entering directory `C:\Users\ussp\AndroidStudioProjects\espeak\app\.cxx\Debug\1m405j51\armeabi-v7a'
+[1/37] Building C object CMakeFiles/ttsespeak.dir/jni/eSpeakService.c.o
+[2/37] Building C object espeak-ng-build/ucd-tools/CMakeFiles/ucd.dir/src/categories.c.o
+[3/37] Building C object espeak-ng-build/ucd-tools/CMakeFiles/ucd.dir/src/ctype.c.o
+[4/37] Building C object espeak-ng-build/ucd-tools/CMakeFiles/ucd.dir/src/case.c.o
+[5/37] Building C object espeak-ng-build/ucd-tools/CMakeFiles/ucd.dir/src/scripts.c.o
+[6/37] Building C object espeak-ng-build/ucd-tools/CMakeFiles/ucd.dir/src/proplist.c.o
+[7/37] Building C object espeak-ng-build/ucd-tools/CMakeFiles/ucd.dir/src/tostring.c.o
+[8/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/common.c.o
+[9/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/mnemonics.c.o
+[10/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/error.c.o
+[11/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/ieee80.c.o
+[12/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/encoding.c.o
+[13/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/dictionary.c.o
+[14/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/compiledata.c.o
+[15/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/compiledict.c.o
+[16/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/intonation.c.o
+[17/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/phoneme.c.o
+[18/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/readclause.c.o
+[19/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/langopts.c.o
+[20/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/numbers.c.o
+[21/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/phonemelist.c.o
+[22/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/setlengths.c.o
+[23/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/synthesize.c.o
+[24/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/spect.c.o
+[25/37] Linking C static library espeak-ng-build\ucd-tools\libucd.a
+[26/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/ssml.c.o
+[27/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/synthdata.c.o
+[28/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/translate.c.o
+[29/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/tr_languages.c.o
+[30/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/translateword.c.o
+[31/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/voices.c.o
+[32/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/wavegen.c.o
+[33/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/speech.c.o
+[34/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/soundicon.c.o
+C:/Users/ussp/AndroidStudioProjects/espeak/app/espeak-src/libespeak-ng/soundicon.c:97:23: warning: 'tmpnam' is deprecated: tmpnam is unsafe, use mkstemp or tmpfile instead [-Wdeprecated-declarations]
+                        strcpy(fname_temp, tmpnam(NULL));
+                                           ^
+C:/Users/ussp/AppData/Local/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/stdio.h:159:5: note: 'tmpnam' has been explicitly marked deprecated here
+    __warnattr("tmpnam is unsafe, use mkstemp or tmpfile instead");
+    ^
+C:/Users/ussp/AppData/Local/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/sys/cdefs.h:143:40: note: expanded from macro '__warnattr'
+#define __warnattr(msg) __attribute__((deprecated(msg)))
+                                       ^
+1 warning generated.
+[35/37] Building C object espeak-ng-build/libespeak-ng/CMakeFiles/espeak-ng.dir/espeak_api.c.o
+[36/37] Linking C static library espeak-ng-build\libespeak-ng\libespeak-ng.a
+[37/37] Linking C shared library C:\Users\ussp\AndroidStudioProjects\espeak\app\build\intermediates\cxx\Debug\1m405j51\obj\armeabi-v7a\libttsespeak.so

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Počet nainstalovaných hlasů</string>
+    <string name="current_tts_locale">Výchozí hlas</string>
+    <string name="engine_settings">Nastavení modulu eSpeak TTS</string>
+    <string name="error_message">Je nám líto, aplikaci eSpeak se nepodařilo spustit.</string>
+    <string name="installing_voice_data">Instalace hlasových dat...</string>
+    <string name="loading">Načítání, čekejte prosím...</string>
+    <string name="sample_text">Toto je ukázkový text namluvený v jazyce %s</string>
+    <string name="set_default_message">Aplikace eSpeak není nastavena jako váš výchozí modul pro převod textu na řeč.</string>
+    <string name="setting_default_pitch">Výchozí výška hlasu</string>
+    <string name="setting_default_rate">Multiplikátor rychlosti řeči</string>
+    <string name="tts_settings">Obecná nastavení modulu TTS</string>
+    <string name="tts_settings_label">Nastavení modulu eSpeak TTS</string>
+    <string name="voice_data_failed_message">Aplikaci eSpeak se nepodařilo nainstalovat hlasová data. Zkontrolujte prosím kartu SD.</string>
+</resources>

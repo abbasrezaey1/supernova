@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Vozes instaladas</string>
+    <string name="current_tts_locale">Voz predefinida</string>
+    <string name="engine_settings">Definições do eSpeak TTS</string>
+    <string name="error_message">Ocorreu uma falha ao iniciar o eSpeak.</string>
+    <string name="installing_voice_data">A instalar dados de voz...</string>
+    <string name="loading">A carregar; aguarde...</string>
+    <string name="sample_text">Este é um exemplo de texto falado em %s</string>
+    <string name="set_default_message">O eSpeak não está definido como o motor de síntese de voz predefinido.</string>
+    <string name="setting_default_pitch">Tom predefinido</string>
+    <string name="setting_default_rate">Multiplicador da taxa de voz</string>
+    <string name="tts_settings">Definições gerais do TTS</string>
+    <string name="tts_settings_label">Definições do eSpeak TTS</string>
+    <string name="voice_data_failed_message">Ocorreu uma falha ao instalar os dados de voz do eSpeak. Verifique o cartão SD.</string>
+</resources>

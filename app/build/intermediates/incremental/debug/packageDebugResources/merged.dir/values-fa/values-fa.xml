@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">صداهای نصب شده</string>
+    <string name="category">دسته بندی</string>
+    <string name="current_tts_locale">صدای پیش‌فرض</string>
+    <string name="engine_settings">تنظیمات eSpeak TTS</string>
+    <string name="error_message">متأسفیم، eSpeak شروع به کار نکرد. می‌خواهید یک گزارش خطا ارسال کنید؟</string>
+    <string name="espeak_pitch_range">انعطاف صدا</string>
+    <string name="espeak_speak_punctuation">خواندن علائم نگارشی</string>
+    <string name="espeak_variant">نوع صدا</string>
+    <string name="espeak_volume">حجم صدا</string>
+    <string name="formatter_percentage">%s%%</string>
+    <string name="formatter_wpm">%s کلمه بر دقیقه</string>
+    <string name="import_voice_description">افزودن یک فایل دیکشنری صوتی eSpeak از کارت حافظه</string>
+    <string name="import_voice_title">افزودن دیکشنری eSpeak</string>
+    <string name="installing_voice_data">در حال نصب داده‌های صوتی...</string>
+    <string name="loading">در حال بارگیری، لطفاً صبر کنید...</string>
+    <string name="punctuation_all">همه</string>
+    <string name="punctuation_characters">علائم</string>
+    <string name="punctuation_custom">سفارشی</string>
+    <string name="punctuation_custom_fmt">سفارشی: %s</string>
+    <string name="punctuation_none">هیچکدام</string>
+    <string name="resetToDefault">تغییر به حالت پیشفرض</string>
+    <string name="sample_text">این یک نمونه از نوشتار گفته شده در %s است</string>
+    <string name="set_default_message">eSpeak اکنون بعنوان موتور پیش‌فرض نوشتار به گفتار شما تنظیم شده است. می‌خواهید اکنون آن را تنظیم کنید؟</string>
+    <string name="setting_default_pitch">زیر و بمی پیش‌فرض</string>
+    <string name="setting_default_rate">تقویت‌کننده سرعت گفتگو</string>
+    <string name="speak">خواندن متن</string>
+    <string name="ssml">بارگذاری قالب SSML</string>
+    <string name="status">وضعیت</string>
+    <string name="synthesis_demo">یک متن جهت خواندن با موتور صوتی eSpeak بنویسید:</string>
+    <string name="tts_settings">تنظیمات کلی TTS</string>
+    <string name="tts_settings_label">تنظیمات eSpeak TTS</string>
+    <string name="tts_version">نسخه eSpeak</string>
+    <string name="variant">نوع صدا</string>
+    <string name="variant_croak">لرزان</string>
+    <string name="variant_default">پیشفرض</string>
+    <string name="variant_female">خانم</string>
+    <string name="variant_male">آقا</string>
+    <string name="variant_n">نوع صدا %d</string>
+    <string name="variant_old">سالمند</string>
+    <string name="variant_whisper">پچ پچ</string>
+    <string name="variant_young">جوان</string>
+    <string name="voice_data_failed_message">eSpeak نتوانست داده‌های صوتی را نصب کند. لطفاً کارت SD خود را بررسی کنید.</string>
+</resources>

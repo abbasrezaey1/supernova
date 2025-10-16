@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Инсталирани су гласови</string>
+    <string name="current_tts_locale">Подразумевани глас</string>
+    <string name="engine_settings">eSpeak TTS подешавања</string>
+    <string name="error_message">Жао нам је, eSpeak није покренут.</string>
+    <string name="installing_voice_data">Инсталирање гласовних података...</string>
+    <string name="loading">Учитавање, сачекајте...</string>
+    <string name="sample_text">Ово је пример текста који је изговорен на језику %s</string>
+    <string name="set_default_message">eSpeak није подешен као подразумевани механизам за пребацивање текста у говор.</string>
+    <string name="setting_default_pitch">Подразумевани ниво</string>
+    <string name="setting_default_rate">Множилац брзине говора</string>
+    <string name="tts_settings">Општа подешавања TTS-а</string>
+    <string name="tts_settings_label">eSpeak TTS подешавања</string>
+    <string name="voice_data_failed_message">eSpeak није успео да инсталира податке о гласу. Проверите SD картицу.</string>
+</resources>

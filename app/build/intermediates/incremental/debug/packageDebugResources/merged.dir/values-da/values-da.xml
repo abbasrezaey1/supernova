@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Installerede stemmer</string>
+    <string name="current_tts_locale">Standardstemme</string>
+    <string name="engine_settings">eSpeak-indstillinger for TTT</string>
+    <string name="error_message">Vi beklager, men eSpeak kunne ikke startes.</string>
+    <string name="installing_voice_data">Installerer stemmedata...</string>
+    <string name="loading">Indlæser. Vent et øjeblik...</string>
+    <string name="sample_text">Dette er et eksempel på talt tekst på %s</string>
+    <string name="set_default_message">eSpeak er ikke angivet som din standard tekst-til-tale-maskine.</string>
+    <string name="setting_default_pitch">Standard tonehøjde</string>
+    <string name="setting_default_rate">Talehastighedsmultiplikator</string>
+    <string name="tts_settings">Generelle indstillinger for TTT</string>
+    <string name="tts_settings_label">eSpeak-indstillinger for TTT</string>
+    <string name="voice_data_failed_message">eSpeak kunne ikke installere stemmedataene. Kontrollér dit SD-kort.</string>
+</resources>

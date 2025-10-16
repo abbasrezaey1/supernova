@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Veus instal·lades</string>
+    <string name="category">Categoria</string>
+    <string name="current_tts_locale">Veu predeterminada</string>
+    <string name="engine_settings">Configuració de l\'eSpeak TTS</string>
+    <string name="error_message">No s\'ha pogut iniciar l\'eSpeak.</string>
+    <string name="espeak_pitch_range">Escolliu una variació</string>
+    <string name="espeak_speak_punctuation">Lletreja la puntuació</string>
+    <string name="espeak_variant">Variant de veu</string>
+    <string name="espeak_volume">Volum</string>
+    <string name="formatter_percentage">%s%%</string>
+    <string name="formatter_wpm">%s WPM</string>
+    <string name="import_voice_description">Importa un fitxer de diccioanri de veu de l\'eSpeak de la targeta SD.</string>
+    <string name="import_voice_title">Importa el diccionari eSpeak</string>
+    <string name="installing_voice_data">S\'estan instal·lant les dades de veu...</string>
+    <string name="loading">S\'està carregant; espereu...</string>
+    <string name="punctuation_all">Totes</string>
+    <string name="punctuation_characters">Signes de puntuació</string>
+    <string name="punctuation_custom">Personalitzada</string>
+    <string name="punctuation_custom_fmt">Personalitzada: %s</string>
+    <string name="punctuation_none">Cap</string>
+    <string name="resetToDefault">Estableix com a predeterminat</string>
+    <string name="sample_text">Aquesta és una mostra de text llegit en veu alta en %s</string>
+    <string name="set_default_message">No teniu definit l\'eSpeak com a motor de text a veu predeterminat.</string>
+    <string name="setting_default_pitch">To predeterminat</string>
+    <string name="setting_default_rate">Multiplicador de velocitat de la veu</string>
+    <string name="speak">Parla</string>
+    <string name="ssml">Carrega la plantilla SSML</string>
+    <string name="status">Estat</string>
+    <string name="synthesis_demo">Introduïu el text a reproduir:</string>
+    <string name="tts_settings">Configuració general de TTS</string>
+    <string name="tts_settings_label">Configuració de l\'eSpeak TTS</string>
+    <string name="tts_version">Versió de l\'eSpeak</string>
+    <string name="variant">Variant</string>
+    <string name="variant_default">Predeterminada</string>
+    <string name="variant_female">Femenina</string>
+    <string name="variant_male">Masculina</string>
+    <string name="variant_n">Variant %d</string>
+    <string name="variant_old">Vell</string>
+    <string name="variant_whisper">Xiuxiuejant</string>
+    <string name="variant_young">Jove</string>
+    <string name="voice_data_failed_message">L\'eSpeak no ha pogut instal·lar dades de veu. Comproveu la targeta SD.</string>
+</resources>

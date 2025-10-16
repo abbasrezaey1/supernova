@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Instalētie balss dati</string>
+    <string name="current_tts_locale">Noklusējuma balss</string>
+    <string name="engine_settings">eSpeak teksta pārveidošanas runā iestatījumi</string>
+    <string name="error_message">Diemžēl programmu eSpeak neizdevās palaist.</string>
+    <string name="installing_voice_data">Notiek balss datu instalēšana...</string>
+    <string name="loading">Notiek ielāde. Lūdzu, uzgaidiet...</string>
+    <string name="sample_text">Šis ir izrunāta teksta paraugs šādā valodā: %s.</string>
+    <string name="set_default_message">Programma eSpeak nav iestatīta kā noklusējuma programma teksta pārveidošanai runā.</string>
+    <string name="setting_default_pitch">Balss noklusējuma augstums</string>
+    <string name="setting_default_rate">Runas ātruma reizinātājs</string>
+    <string name="tts_settings">Vispārīgie teksta pārveidošanas runā iestatījumi</string>
+    <string name="tts_settings_label">eSpeak teksta pārveidošanas runā iestatījumi</string>
+    <string name="voice_data_failed_message">Programmā eSpeak neizdevās instalēt balss datus. Lūdzu, pārbaudiet SD karti.</string>
+</resources>

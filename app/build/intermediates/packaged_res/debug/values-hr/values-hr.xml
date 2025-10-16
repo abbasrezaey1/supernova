@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Broj instaliranih glasova</string>
+    <string name="current_tts_locale">Zadani glas</string>
+    <string name="engine_settings">TTS postavke programa eSpeak</string>
+    <string name="error_message">Žao nam je, ali pokretanje programa eSpeak nije uspjelo.</string>
+    <string name="installing_voice_data">Instaliranje glasovnih podataka...</string>
+    <string name="loading">Učitavanje. Pričekajte...</string>
+    <string name="sample_text">Ovo je primjer teksta izgovorenog na %s</string>
+    <string name="set_default_message">Program eSpeak nije postavljen kao vaš zadani alat za pretvaranje teksta u govor.</string>
+    <string name="setting_default_pitch">Zadana postavka visine tona</string>
+    <string name="setting_default_rate">Multiplikator brzine govora</string>
+    <string name="tts_settings">Opće postavke TTS-a</string>
+    <string name="tts_settings_label">TTS postavke programa eSpeak</string>
+    <string name="voice_data_failed_message">Program eSpeak nije uspio instalirati glasovne podatke. Provjerite svoju SD karticu.</string>
+</resources>

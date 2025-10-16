@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "espeak-ng-build/ucd-tools",
+		"source" : "C:/Users/ussp/AndroidStudioProjects/espeak/app/espeak-src/ucd-tools"
+	}
+}

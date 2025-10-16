@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">已安装的语音库数量</string>
+    <string name="current_tts_locale">默认语音</string>
+    <string name="engine_settings">eSpeak 文字转语音 (TTS) 设置</string>
+    <string name="error_message">很抱歉，eSpeak 启动失败。</string>
+    <string name="installing_voice_data">正在安装语音数据...</string>
+    <string name="loading">正在加载，请稍候...</string>
+    <string name="sample_text">正在朗读的是%s的语音示例</string>
+    <string name="set_default_message">未将 eSpeak 设置为文字转语音的默认引擎。</string>
+    <string name="setting_default_pitch">默认声调</string>
+    <string name="setting_default_rate">语速倍数</string>
+    <string name="tts_settings">文字转语音 (TTS) 常规设置</string>
+    <string name="tts_settings_label">eSpeak 文字转语音 (TTS) 设置</string>
+    <string name="voice_data_failed_message">eSpeak 无法安装语音数据。请检查您的 SD 卡。</string>
+</resources>

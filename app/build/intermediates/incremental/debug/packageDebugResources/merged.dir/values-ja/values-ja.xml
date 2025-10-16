@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">インストールされている音声</string>
+    <string name="current_tts_locale">デフォルトの音声</string>
+    <string name="engine_settings">eSpeakテキスト読み上げ設定</string>
+    <string name="error_message">eSpeakを起動できませんでした。</string>
+    <string name="installing_voice_data">音声データをインストールしています...</string>
+    <string name="loading">読み込んでいます。お待ちください...</string>
+    <string name="sample_text">%sで話すテキストサンプルです。</string>
+    <string name="set_default_message">eSpeakはデフォルトのテキスト読み上げエンジンに設定されていません。</string>
+    <string name="setting_default_pitch">デフォルトの声の高さ</string>
+    <string name="setting_default_rate">音声速度</string>
+    <string name="tts_settings">テキスト読み上げの全般設定</string>
+    <string name="tts_settings_label">eSpeakテキスト読み上げ設定</string>
+    <string name="voice_data_failed_message">eSpeakで音声データをインストールできませんでした。SDカードを確認してください。</string>
+</resources>

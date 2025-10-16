@@ -1,0 +1,2 @@
+C:\Users\ussp\AndroidStudioProjects\espeak\app\.cxx\Debug\1m405j51\armeabi-v7a\espeak-ng-build\CMakeFiles\speak-ng
+C:\Users\ussp\AndroidStudioProjects\espeak\app\.cxx\Debug\1m405j51\armeabi-v7a\espeak-ng-build\CMakeFiles\speak-ng.rule

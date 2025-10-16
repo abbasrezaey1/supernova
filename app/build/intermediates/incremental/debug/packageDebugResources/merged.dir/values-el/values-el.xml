@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">Φωνές που έχουν εγκατασταθεί</string>
+    <string name="current_tts_locale">Προεπιλεγμένη φωνή</string>
+    <string name="engine_settings">Ρυθμίσεις eSpeak TTS</string>
+    <string name="error_message">Λυπούμαστε, η εκκίνηση του eSpeak απέτυχε.</string>
+    <string name="installing_voice_data">Εγκατάσταση δεδομένων φωνής...</string>
+    <string name="loading">Γίνεται φόρτωση. Περιμένετε...</string>
+    <string name="sample_text">Αυτό είναι ένα δείγμα κειμένου που εκφέρεται στα %s</string>
+    <string name="set_default_message">Το eSpeak δεν έχει οριστεί ως η προεπιλεγμένη μηχανή μετατροπής κειμένου σε λόγο.</string>
+    <string name="setting_default_pitch">Προεπιλεγμένος τόνος</string>
+    <string name="setting_default_rate">Πολλαπλασιαστής ρυθμού ομιλίας</string>
+    <string name="tts_settings">Γενικές ρυθμίσεις TTS</string>
+    <string name="tts_settings_label">Ρυθμίσεις eSpeak TTS</string>
+    <string name="voice_data_failed_message">Το eSpeak απέτυχε να εγκαταστήσει τα δεδομένα φωνής. Ελέγξτε την κάρτα SD.</string>
+</resources>

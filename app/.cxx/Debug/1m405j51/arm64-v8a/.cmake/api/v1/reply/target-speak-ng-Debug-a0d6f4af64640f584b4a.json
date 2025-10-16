@@ -1,0 +1,72 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target"
+		],
+		"files" : 
+		[
+			"C:/Users/ussp/AndroidStudioProjects/espeak/app/espeak-src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 26,
+				"parent" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "espeak-ng-bin::@5b135590114ded73e8ef"
+		}
+	],
+	"id" : "speak-ng::@5b135590114ded73e8ef",
+	"name" : "speak-ng",
+	"paths" : 
+	{
+		"build" : "espeak-ng-build",
+		"source" : "C:/Users/ussp/AndroidStudioProjects/espeak/app/espeak-src"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "C:/Users/ussp/AndroidStudioProjects/espeak/app/.cxx/Debug/1m405j51/arm64-v8a/espeak-ng-build/CMakeFiles/speak-ng",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "C:/Users/ussp/AndroidStudioProjects/espeak/app/.cxx/Debug/1m405j51/arm64-v8a/espeak-ng-build/CMakeFiles/speak-ng.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

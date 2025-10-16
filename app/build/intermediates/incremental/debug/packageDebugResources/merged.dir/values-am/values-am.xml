@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="available_voices">የተጫኑ ድምጾች</string>
+    <string name="current_tts_locale">ነባሪ ድምጽ</string>
+    <string name="engine_settings">eSpeak TTS ቅንብሮች</string>
+    <string name="error_message">ይቅርታ፣ eSpeak መጀመር አልቻለም። የስህተት ሪፖርት መላክ ትፈልጋለህ?</string>
+    <string name="installing_voice_data">የድምጽ ውሂብ በመጫን ላይ…</string>
+    <string name="loading">በመጫን ላይ፣ እባክህ ጠብቅ…</string>
+    <string name="sample_text">ይሄ በ%s ላይ የተነገረ ጽሑፍ ናሙና ነው።</string>
+    <string name="set_default_message">eSpeak እንደነባሪ የጽሑፍ-ወደ-ንግግር ፕሮግራም ሆኖ አልተቀመጠም። አሁን ማስቀመጥ ትፈልጋለህ?</string>
+    <string name="setting_default_pitch">ነባሪ የድምጽ መውጣት/መውረድ</string>
+    <string name="setting_default_rate">የንግግር መጠን ማባዣ</string>
+    <string name="tts_settings">አጠቃላይ የ TTS ቅንብሮች</string>
+    <string name="tts_settings_label">eSpeak TTS ቅንብሮች</string>
+    <string name="voice_data_failed_message">eSpeak የድምጽ ውሂብ መጫን አልተሳካለትም። እባክህ የማከማቻ መሳሪያ ካርድህን ፈትሽ።</string>
+</resources>
