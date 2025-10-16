@@ -1,5 +1,0 @@
-C:\Users\ussp\AndroidStudioProjects\espeak\app\espeak-src\CMakeLists.txt
-C:\Users\ussp\AndroidStudioProjects\espeak\app\espeak-src\libespeak-ng\CMakeLists.txt
-C:\Users\ussp\AndroidStudioProjects\espeak\app\espeak-src\speechPlayer\CMakeLists.txt
-C:\Users\ussp\AndroidStudioProjects\espeak\app\espeak-src\ucd-tools\CMakeLists.txt
-C:\Users\ussp\AndroidStudioProjects\espeak\app\jni\CMakeLists.txt

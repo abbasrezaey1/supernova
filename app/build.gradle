@@ -142,21 +142,22 @@ project.afterEvaluate {
     tasks.checkData.dependsOn(externalNativeBuildDebug)
     tasks.createDataArchive.dependsOn(externalNativeBuildDebug)
     tasks.named('mapDebugSourceSetPaths') {
-        dependsOn ':createDataVersion', ':createDataArchive'
+        dependsOn 'createDataVersion', 'createDataArchive'
     }
     tasks.named('mergeDebugResources') {
-        dependsOn ':createDataVersion', ':createDataArchive'
+        dependsOn 'createDataVersion', 'createDataArchive'
     }
     tasks.named('packageDebugResources') {
-        dependsOn ':createDataVersion', ':createDataArchive'
+        dependsOn 'createDataVersion', 'createDataArchive'
     }
     tasks.named('mapReleaseSourceSetPaths') {
-        dependsOn ':createDataVersion', ':createDataArchive'
+        dependsOn 'createDataVersion', 'createDataArchive'
     }
     tasks.named('mergeReleaseResources') {
-        dependsOn ':createDataVersion', ':createDataArchive'
+        dependsOn 'createDataVersion', 'createDataArchive'
     }
     tasks.named('packageReleaseResources') {
-        dependsOn ':createDataVersion', ':createDataArchive'
+        dependsOn 'createDataVersion', 'createDataArchive'
     }
 }
+

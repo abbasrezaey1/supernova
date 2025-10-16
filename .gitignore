@@ -1,0 +1,24 @@
+# Gradle & build outputs
+.gradle/
+build/
+app/build/
+*/build/
+
+# Android Studio project files
+.idea/
+local.properties
+
+# CMake & NDK
+.cxx/
+.externalNativeBuild/
+.cache/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.lock
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+desktop.ini
