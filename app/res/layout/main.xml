@@ -54,7 +54,6 @@
             android:textColor="#000"
             android:paddingTop="4dp" />
 
-        <!-- INPUT TEXT -->
         <EditText
             android:id="@+id/editText1"
             android:layout_width="match_parent"
@@ -68,7 +67,6 @@
             android:background="@android:drawable/edit_text"
             android:padding="6dp" />
 
-        <!-- BUTTONS ROW -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,7 +98,6 @@
                 android:minHeight="48dp" />
         </LinearLayout>
 
-        <!-- LIVE STATUS & TRANSLATION -->
         <TextView
             android:id="@+id/txtRecognized"
             android:layout_width="match_parent"
@@ -127,5 +124,12 @@
             android:progress="0"
             android:layout_marginTop="6dp"
             style="?android:attr/progressBarStyleHorizontal" />
+
+        <Button
+            android:id="@+id/open_vosk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open Vosk Demo"
+            android:layout_marginTop="12dp" />
     </LinearLayout>
 </LinearLayout>

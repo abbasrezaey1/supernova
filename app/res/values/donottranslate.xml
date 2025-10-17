@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name" translatable="false">eSpeak</string>
-
   <!-- Voice Variants that are people's names. -->
   <string name="variant_klatt">Klatt</string>
   <string name="variant_nvda">NVDA</string>

@@ -34,6 +34,11 @@ dependencies {
 
     // ✅ Google ML Kit on-device translation (TranslateLanguage, Translation, etc.)
     implementation 'com.google.mlkit:translate:17.0.2'
+
+    // ✅ Vosk model + JNI
+    implementation project(":models")
+    implementation 'com.alphacephei:vosk-android:0.3.47@aar'
+    implementation 'net.java.dev.jna:jna:5.13.0@aar'
 }
 
 android {
@@ -52,7 +57,6 @@ android {
         versionCode 22
         versionName "1.52.0"
 
-        // ❌ REMOVE the 'path' from here
         externalNativeBuild {
             cmake {
                 arguments "-DUSE_ASYNC:BOOL=OFF", "-DUSE_MBROLA:BOOL=OFF"
@@ -66,7 +70,6 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
 
-    // ✅ 'path' goes ONLY here
     externalNativeBuild {
         cmake {
             path "jni/CMakeLists.txt"
@@ -76,6 +79,7 @@ android {
 
     sourceSets {
         main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
             java.srcDirs = ['src']
             res.srcDirs = ['res']
         }
@@ -86,8 +90,7 @@ android {
     }
 }
 
-
-// ✅ Custom build tasks (your original espeak data handling)
+// ✅ Custom eSpeak data handling
 tasks.register('checkData') {
     doFirst {
         assert file("../espeak-ng-data/en_dict").exists()
