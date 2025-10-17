@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!--
-        Source: App icon label.
-        Description: The name of the application.
-    -->
   <string name="app_name" translatable="false">eSpeak</string>
 
   <!-- Voice Variants that are people's names. -->
@@ -87,5 +83,4 @@
   <string name="variant_unirobot">UniRobot</string>
   <string name="variant_victor">Victor</string>
   <string name="variant_zac">Zac</string>
-
 </resources>
