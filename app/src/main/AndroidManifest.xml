@@ -8,12 +8,12 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- Optional (for smoother offline TTS/STT translation model download) -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- ✅ For Android 14+ mic usage in foreground service -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
 
-    <!-- Declare that microphone and network features are used but not strictly required -->
+    <!-- Declare that mic and network features are optional -->
     <uses-feature
         android:name="android.hardware.microphone"
         android:required="false" />
@@ -107,6 +107,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 🔊 Optional secondary activity -->
         <activity
             android:name=".VoskActivity"
             android:label="Vosk Speech Recognition"

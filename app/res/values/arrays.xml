@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Speech speed options -->
+    <string-array name="speech_speeds">
+        <item>250</item>
+        <item>270</item>
+        <item>300</item>
+        <item>320</item>
+        <item>340</item>
+        <item>350</item>
+        <item>360</item>
+        <item>370</item>
+        <item>380</item>
+        <item>390</item>
+        <item>400</item>
+        <item>410</item>
+        <item>420</item>
+        <item>430</item>
+        <item>440</item>
+        <item>450</item>
+        <item>460</item>
+        <item>470</item>
+    </string-array>
+
+    <!-- Minimum word count -->
+    <string-array name="wordcount1">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <!-- Maximum word count -->
+    <string-array name="wordcount2">
+        <item>1</item>s
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="stt_engines">
+        <item>Vosk (Offline)</item>
+        <item>Google STT (English)</item>
+    </string-array>
+
+</resources>

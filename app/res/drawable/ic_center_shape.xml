@@ -1,0 +1,16 @@
+<!-- res/drawable/ic_center_shape.xml -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="220dp"
+    android:height="220dp"
+    android:viewportWidth="220"
+    android:viewportHeight="220">
+    <path
+        android:fillColor="#B388FF"
+        android:pathData="M110,10a100,100 0 1,0 0,200a100,100 0 1,0 0,-200z" />
+    <path
+        android:fillColor="#9575CD"
+        android:pathData="M110,40a70,70 0 1,0 0,140a70,70 0 1,0 0,-140z" />
+    <path
+        android:fillColor="#7E57C2"
+        android:pathData="M110,70a40,40 0 1,0 0,80a40,40 0 1,0 0,-80z" />
+</vector>

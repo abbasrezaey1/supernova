@@ -44,7 +44,8 @@
   <string name="import_voice_description">Import an eSpeak voice dictionary file from the SD card.</string>
 
   <!-- ✅ Added from Vosk -->
-  <string name="app_name">Vosk eSpeak</string>
+  <string name="app_name">Supersonic</string>
+
   <string name="recognize_file">Recognize File</string>
   <string name="recognize_microphone">Recognize Microphone</string>
   <string name="stop_microphone">Stop Microphone</string>
@@ -56,4 +57,14 @@
   <string name="stop_file">Stop File</string>
   <string name="pause">Pause</string>
   <string name="continueRecognition">Continue</string>
+  <string-array name="language_choices">
+    <item>Farsi</item>
+    <item>Hindi</item>
+    <item>English</item>
+  </string-array>
+  <string-array name="speech_engines">
+    <item>Vosk (Offline)</item>
+    <item>Google STT (Offline English)</item>
+  </string-array>
+
 </resources>

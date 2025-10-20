@@ -1,135 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="8dp"
-    android:background="#FFFFFF">
+    android:background="@color/purple_bg">
 
-    <!-- LOADING VIEW -->
-    <LinearLayout
-        android:id="@+id/loading"
+    <!-- 🔹 Top Bar -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_margin="12dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@color/white"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/btnMenu"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="12dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_menu"
+        app:tint="@color/white" />
+
+    <!-- 🔹 Center Shape -->
+    <ImageView
+        android:id="@+id/logoShape"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:src="@drawable/ic_center_shape"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp" />
+
+    <!-- 🔹 Translated Text (now on top, bigger) -->
+    <TextView
+        android:id="@+id/txtTranslated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoShape"
+    android:layout_marginTop="45dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:text=""
+        android:textColor="@color/white"
+
+    android:textSize="32sp"
+    android:textStyle="bold"
+    android:gravity="center_horizontal" />
+
+    <!-- 🔹 Recognized Text (below translation, smaller) -->
+    <TextView
+        android:id="@+id/txtRecognized"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtTranslated"
+    android:layout_marginTop="12dp"
+        android:textColor="@color/purple_accent"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:text=""
+
+    android:textSize="20sp"
+        android:textStyle="bold"
+    android:gravity="center_horizontal" />
+
+    <!-- 🔹 Scrollable Settings -->
+    <ScrollView
+        android:id="@+id/mainScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/loading"
-            android:textSize="16sp"
-            android:textColor="#444" />
-    </LinearLayout>
-
-    <!-- SUCCESS VIEW -->
-    <LinearLayout
-        android:id="@+id/success"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-        <ListView
-            android:id="@+id/properties"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:dividerHeight="1dp"
-            android:divider="#DDDDDD" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/synthesis_demo"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#000"
-            android:paddingTop="4dp" />
-
-        <EditText
-            android:id="@+id/editText1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Type or speak your text..."
-            android:inputType="textMultiLine"
-            android:minLines="2"
-            android:maxLines="5"
-            android:scrollbars="vertical"
-            android:gravity="top|start"
-            android:background="@android:drawable/edit_text"
-            android:padding="6dp" />
+        android:layout_below="@id/txtRecognized"
+        android:layout_marginTop="12dp"
+        android:padding="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="6dp">
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
 
-            <Button
-                android:id="@+id/speak"
-                android:layout_width="0dp"
+            <!-- 🟣 Settings Section -->
+            <LinearLayout
+                android:id="@+id/settingsContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="🔊 Speak Text"
-                android:minHeight="48dp" />
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="12dp"
+                android:background="@color/purple_light"
+                android:padding="8dp">
 
-            <Button
-                android:id="@+id/ssml"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Insert SSML"
-                android:minHeight="48dp" />
+                <TextView
+                    android:id="@+id/txtVoskRaw"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:scrollbars="vertical"
+                    android:padding="8dp"
+                    android:background="#FFFFFF"
+                    android:text="Vosk raw output will appear here"
+                    android:textSize="13sp"
+                    android:textColor="#333"
+                    android:gravity="start"
+                    android:layout_marginBottom="8dp" />
 
-            <Button
-                android:id="@+id/btnMic"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="🎙 Speak"
-                android:minHeight="48dp" />
+                <Button
+                    android:id="@+id/btnPartial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🧩 Partial Mode: ON"
+                    android:minHeight="48dp"
+                    android:layout_marginTop="8dp" />
+
+                <Button
+                    android:id="@+id/btnFinal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="✅ Final Mode: ON"
+                    android:minHeight="48dp"
+                    android:layout_marginTop="8dp" />
+
+                <Button
+                    android:id="@+id/btnSmartClip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="✂ Smart Clip (Final Only): ON"
+                    android:minHeight="48dp"
+                    android:layout_marginTop="8dp" />
+
+                <Spinner
+                    android:id="@+id/spnSpeed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/speech_speeds"
+                    android:layout_marginTop="8dp" />
+
+                <Spinner
+                    android:id="@+id/spnWordCount1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/wordcount1"
+                    android:layout_marginTop="8dp" />
+
+                <Spinner
+                    android:id="@+id/spnWordCount2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/wordcount2"
+                    android:layout_marginTop="8dp" />
+
+                <Spinner
+                    android:id="@+id/spnLanguage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/language_choices"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/txtPitchLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pitch: 55"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:paddingTop="8dp" />
+
+                <SeekBar
+                    android:id="@+id/seekPitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="55"
+                    android:layout_marginTop="4dp" />
+
+                <Spinner
+                    android:id="@+id/spnEngineSelect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/speech_engines"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/txtRecognized"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Speech recognized text will appear here"
-            android:paddingTop="8dp"
-            android:textSize="16sp"
-            android:textColor="#000" />
-
-        <TextView
-            android:id="@+id/txtTranslated"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Translation result"
-            android:textSize="16sp"
-            android:textColor="#006400"
-            android:paddingTop="4dp" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="12"
-            android:progress="0"
-            android:layout_marginTop="6dp"
-            style="?android:attr/progressBarStyleHorizontal" />
-
-        <Button
-            android:id="@+id/open_vosk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Open Vosk Demo"
-            android:layout_marginTop="12dp" />
-    </LinearLayout>
-</LinearLayout>
+    </ScrollView>
+</RelativeLayout>

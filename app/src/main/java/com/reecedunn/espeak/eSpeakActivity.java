@@ -1,429 +1,649 @@
-/*
- * Copyright (C) 2012-2013 Reece H. Dunn
- * Modified in 2025 for self-contained synthesis + speech translation (no Android TTS dependency)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- */
-
 package com.reecedunn.espeak;
 
-import android.Manifest;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+import java.io.File;
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.speech.RecognitionListener;
-import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
+import android.os.PowerManager;
 import android.util.Log;
-import android.util.Pair;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.SeekBar;
+import android.widget.AdapterView;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.content.Intent;
 
 import com.google.mlkit.nl.translate.TranslateLanguage;
 import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.vosk.Model;
+import org.vosk.Recognizer;
+import org.vosk.android.RecognitionListener;
+import org.vosk.android.SpeechService;
+import org.vosk.android.StorageService;
+import android.widget.ImageButton;
 import java.util.ArrayList;
-import java.util.List;
-import android.content.Intent;
-
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ImageView;
 public class eSpeakActivity extends Activity {
+    private ImageView logoShape;
     private static final String TAG = "eSpeakActivity";
-    private static final int REQ_MIC = 101;
 
-    private enum State { LOADING, ERROR, SUCCESS }
-
-    private State mState;
-    private SpeechSynthesis mSynth;
+    private Model voskSpeechModel;
+    private SpeechService voskService;
+    private SpeechSynthesis ttsEspeakEngine;
+    private PowerManager.WakeLock wakeLock;
     private Translator translator;
-    private SpeechRecognizer recognizer;
 
-    private List<Pair<String, String>> mInformation;
-    private InformationListAdapter mInformationView;
-    private EditText mText;
-    private TextView txtRecognized;
-    private TextView txtTranslated;
-    private ProgressBar progressBar;
+    private boolean translatorReady = false;
     private boolean isListening = false;
-    private boolean continuous = true;
-    private final Handler handler = new Handler();
-    private String lastWord = null;
-    private long lastSpeakTime = 0L;
-    // ---------------- LIFECYCLE ----------------
-    private final List<String> wordBuffer = new ArrayList<>();
-    private static final int WORD_CHUNK_SIZE = 3;
-    private String lastPartial = "";
+    private boolean isSpeaking = false;
+    private boolean translationRunning = false;
+
+    private String lastSpoken = "";
+    private long lastSpeakTime = 0;
+
+    private TextProcessor textProcessor;
+    private TextView txtRecognized, txtTranslated, txtVoskRaw, txtPitchLabel;
+    private Button btnMic, btnPartial, btnFinal, btnSmartClip;
+
+    private Spinner spnSpeed, spnWordCount1, spnWordCount2, spnLanguage;
+    private Spinner spnEngineSelect;
+    private String selectedEngine; // "vosk" or "google"
+    private SeekBar seekPitch;
+
+    private int selectedSpeed;
+    private int selectedPitch;
+    private int wordCount1;
+    private int wordCount2;
+    private String selectedTargetLanguage;
+    private final String PREFS = "settings";
+
+    private final ExecutorService ttsExecutor = Executors.newFixedThreadPool(1);
+    private final ExecutorService translationExecutor = Executors.newSingleThreadExecutor();
+    private boolean keepGoogleListening = false;
+    private SpeechRecognizer googleRecognizer;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO)
+                != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{android.Manifest.permission.RECORD_AUDIO}, 101);
+            return; // stop until permission granted
+        }
 
-        // Bind UI
-        mInformation = new ArrayList<>();
-        mInformationView = new InformationListAdapter(this, mInformation);
-        ((ListView) findViewById(R.id.properties)).setAdapter(mInformationView);
+        logoShape = findViewById(R.id.logoShape);
+        // 🟣 Tap animation on logo
+        logoShape.setOnClickListener(v -> {
+            v.startAnimation(android.view.animation.AnimationUtils.loadAnimation(this, R.anim.icon_tap));
+        });
 
-        mText = findViewById(R.id.editText1);
+        SharedPreferences prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
+        selectedSpeed = prefs.getInt("speed", 320);
+        selectedPitch = prefs.getInt("pitch", 55);
+        wordCount1 = prefs.getInt("wordCount1", 3);
+        wordCount2 = prefs.getInt("wordCount2", 7);
+        selectedTargetLanguage = prefs.getString("lang", TranslateLanguage.PERSIAN);
+        selectedEngine = prefs.getString("engine", "vosk");
+        if (selectedEngine == null) selectedEngine = "vosk";
+
+        boolean clipState = prefs.getBoolean("clipEnabled", true);
+
         txtRecognized = findViewById(R.id.txtRecognized);
         txtTranslated = findViewById(R.id.txtTranslated);
-        progressBar = findViewById(R.id.progressBar);
+        txtTranslated.setText("");
 
-        setState(State.LOADING);
-        installVoiceDataIfMissing(this);
-        initializeEngine();
+        txtVoskRaw = findViewById(R.id.txtVoskRaw);
+
+        btnPartial = findViewById(R.id.btnPartial);
+        btnFinal = findViewById(R.id.btnFinal);
+        btnSmartClip = findViewById(R.id.btnSmartClip);
+        spnSpeed = findViewById(R.id.spnSpeed);
+        spnWordCount1 = findViewById(R.id.spnWordCount1);
+        spnWordCount2 = findViewById(R.id.spnWordCount2);
+        spnLanguage = findViewById(R.id.spnLanguage);
+        spnEngineSelect = findViewById(R.id.spnEngineSelect);
+        txtPitchLabel = findViewById(R.id.txtPitchLabel);
+        seekPitch = findViewById(R.id.seekPitch);
+
+
+        // 🔹 Top control icons
+        ImageButton btnMenu = findViewById(R.id.btnMenu);
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        LinearLayout settingsContainer = findViewById(R.id.settingsContainer);
+
+        // 🍔 Hamburger → opens settings
+        btnMenu.setOnClickListener(v -> {
+            settingsContainer.setVisibility(View.VISIBLE);
+            btnMenu.setVisibility(View.GONE);
+            btnBack.setVisibility(View.VISIBLE);
+        });
+
+        // 🔙 Back → closes settings
+        btnBack.setOnClickListener(v -> {
+            settingsContainer.setVisibility(View.GONE);
+            btnBack.setVisibility(View.GONE);
+            btnMenu.setVisibility(View.VISIBLE);
+        });
+
+        // 🧠 Text Processor setup
+        textProcessor = new TextProcessor(txtRecognized);
+        textProcessor.setClipEnabled(clipState);
+        textProcessor.setWordRange(wordCount1, wordCount2);
+
+        updateButtonState(btnPartial, true, "🧩 Partial Mode: ");
+        updateButtonState(btnFinal, true, "✅ Final Mode: ");
+        updateButtonState(btnSmartClip, clipState, "✂ Smart Clip (Final Only): ");
+
+        btnPartial.setOnClickListener(v ->
+                toggleButton(btnPartial, "🧩 Partial Mode: ", prefs, "partial", textProcessor::setPartialEnabled));
+
+        btnFinal.setOnClickListener(v ->
+                toggleButton(btnFinal, "✅ Final Mode: ", prefs, "final", textProcessor::setFinalEnabled));
+
+        btnSmartClip.setOnClickListener(v -> {
+            boolean newState = !textProcessor.isClipEnabled();
+            textProcessor.setClipEnabled(newState);
+            updateButtonState(btnSmartClip, newState, "✂ Smart Clip (Final Only): ");
+            prefs.edit().putBoolean("clipEnabled", newState).apply();
+        });
+
+        // 🗣 Initialize systems
+        initializeTTSSpeakEngine();
         initTranslator();
-        initRecognizer();
+        initVosk();
+// 🌊 Start gentle pulse animation while initializing
+        logoShape.startAnimation(android.view.animation.AnimationUtils.loadAnimation(this, R.anim.icon_pulse));
 
-        // 🔊 Speak typed text
-        Button speak = findViewById(R.id.speak);
-        speak.setOnClickListener(v -> {
-            if (mSynth != null) {
-                String text = mText.getText().toString().trim();
-                if (!text.isEmpty()) {
-                    String normalized = normalizeFarsi(text);
-                    setPersianVoice();
-                    mSynth.synthesize(normalized, false);
+// Automatically start listening after short delay
+        new android.os.Handler().postDelayed(() -> {
+            isListening = true;
+            if ("google".equals(selectedEngine))startGoogleSTT();
+            else startVoskListening();
+            toast("🎤 Auto listening started");
+            logoShape.clearAnimation();
+
+        }, 1500);
+
+
+        // ⚡ Prevent device from sleeping
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "eSpeakApp::Lock");
+        wakeLock.acquire();
+
+
+        // 🔄 Restore spinner selections
+        spnSpeed.setSelection(Math.max(0, (selectedSpeed - 250) / 20));
+        spnWordCount1.setSelection(wordCount1 - 1);
+        spnWordCount2.setSelection(wordCount2 - 2);
+        spnLanguage.setSelection(langToIndex(selectedTargetLanguage));
+        spnEngineSelect.setSelection(selectedEngine.equals("google") ? 1 : 0);
+
+        // 🎛 Pitch control
+        seekPitch.setProgress(selectedPitch);
+        txtPitchLabel.setText("Pitch: " + selectedPitch);
+        seekPitch.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                selectedPitch = Math.max(20, Math.min(progress, 100));
+                txtPitchLabel.setText("Pitch: " + selectedPitch);
+                prefs.edit().putInt("pitch", selectedPitch).apply();
+                if (ttsEspeakEngine != null) ttsEspeakEngine.Pitch.setValue(selectedPitch);
+            }
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        // 🎚 Speed control
+        spnSpeed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                selectedSpeed = Integer.parseInt(parent.getItemAtPosition(position).toString());
+                if (ttsEspeakEngine != null) ttsEspeakEngine.Rate.setValue(selectedSpeed);
+                prefs.edit().putInt("speed", selectedSpeed).apply();
+            }
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        // 🧩 Word ranges
+        spnWordCount1.setOnItemSelectedListener(wordListener(true, prefs));
+        spnWordCount2.setOnItemSelectedListener(wordListener(false, prefs));
+
+        // 🌐 Language selection
+        spnLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                selectedTargetLanguage = indexToLang(position);
+                prefs.edit().putString("lang", selectedTargetLanguage).apply();
+                initTranslator();
+            }
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        // 🎙 Engine selection
+        spnEngineSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                selectedEngine = (position == 1) ? "google" : "vosk";
+                prefs.edit().putString("engine", selectedEngine).apply();
+                toast("Engine: " + (selectedEngine.equals("google") ? "Google STT" : "Vosk Offline"));
+            }
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    private AdapterView.OnItemSelectedListener wordListener(boolean isMin, SharedPreferences prefs) {
+        return new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                int val = Integer.parseInt(parent.getItemAtPosition(position).toString());
+                if (isMin) wordCount1 = val; else wordCount2 = val;
+                textProcessor.setWordRange(wordCount1, wordCount2);
+                prefs.edit().putInt(isMin ? "wordCount1" : "wordCount2", val).apply();
+            }
+            public void onNothingSelected(AdapterView<?> parent) {}
+        };
+    }
+
+    private void initVosk() {
+        StorageService.unpack(this, "model-en-us", "model",
+                model -> {
+                    voskSpeechModel = model;
+                    toast("✅ Model loaded");
+                    if (!isListening && selectedEngine.equals("vosk")) {
+                        startVoskListening();
+                    }
+                },
+                e -> toast("❌ Model load failed: " + e.getMessage()));
+
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isListening) {
+            isListening = true;
+            if ("google".equals(selectedEngine)) startGoogleSTT();
+            else startVoskListening();
+        }
+    }
+
+    private void startVoskListening() {
+        if (voskSpeechModel == null) { toast("❌ Model not ready"); return; }
+
+        try {
+            Recognizer rec = new Recognizer(voskSpeechModel, 16000.0f);
+            voskService = new SpeechService(rec, 16000.0f);
+            voskService.startListening(new RecognitionListener() {
+
+                public void onPartialResult(String hyp) {
+                    appendRaw("Partial: " + hyp);
+                    textProcessor.handlePartial(hyp);
+                    handleNewPhrase(textProcessor.getLastPrinted());
                 }
+
+                public void onResult(String hyp) {
+                    appendRaw("Result: " + hyp);
+                    textProcessor.handleFinal(hyp);
+                    handleNewPhrase(textProcessor.getLastPrinted());
+                }
+
+                public void onFinalResult(String hyp) {
+                    appendRaw("Final: " + hyp);
+                    textProcessor.handleFinal(hyp);
+                    handleNewPhrase(textProcessor.getLastPrinted());
+                }
+
+                public void onError(Exception e) { appendRaw("Error: " + e.getMessage()); }
+                public void onTimeout() {}
+            });
+// 🎵 Simulated pulse while Vosk listens
+            new Thread(() -> {
+                while (isListening && voskService != null) {
+                    float fakeRms = (float) (Math.random() * 6 + 4); // soft random movement
+                    updateMicAnimation(fakeRms);
+                    Log.d("MicRMS", "RMS: " + fakeRms);
+
+                    try { Thread.sleep(200); } catch (InterruptedException ignored) {}
+                }
+            }).start();
+
+        } catch (IOException e) { toast("Start failed: " + e.getMessage()); }
+    }
+
+    private void startGoogleSTT() {
+        if (!SpeechRecognizer.isRecognitionAvailable(this)) {
+            toast("❌ Google Speech not available");
+            return;
+        }
+
+        if (googleRecognizer != null) {
+            googleRecognizer.destroy();
+        }
+
+        googleRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "de-DE");
+        intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+
+        keepGoogleListening = true;
+
+        googleRecognizer.setRecognitionListener(new android.speech.RecognitionListener() {
+            @Override public void onResults(Bundle results) {
+                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (matches != null && !matches.isEmpty()) {
+                    String text = matches.get(0);
+                    txtRecognized.setText(text);
+                    translateAndSpeakInstant(text);
+                }
+
+                // 🔁 Restart listening after final result
+                if (keepGoogleListening) restartGoogleSTT();
+            }
+
+            @Override public void onPartialResults(Bundle partialResults) {
+                ArrayList<String> partial = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (partial != null && !partial.isEmpty())
+                    txtRecognized.setText(partial.get(0));
+            }
+
+            @Override public void onError(int error) {
+                // If an error like silence timeout happens, restart automatically
+                if (keepGoogleListening) restartGoogleSTT();
+            }
+
+            @Override public void onReadyForSpeech(Bundle params) {}
+            @Override public void onBeginningOfSpeech() {}
+            @Override
+            public void onRmsChanged(float rmsdB) {
+                updateMicAnimation(rmsdB);
+            }
+
+
+            @Override public void onBufferReceived(byte[] buffer) {}
+            @Override public void onEndOfSpeech() {}
+            @Override public void onEvent(int eventType, Bundle params) {}
+        });
+
+        googleRecognizer.startListening(intent);
+        toast("🎤 Google STT (Offline if installed) started");
+    }
+
+    private void restartGoogleSTT() {
+        if (!keepGoogleListening) return;
+
+        // reset the pulse animation each time
+        runOnUiThread(() -> {
+            logoShape.animate().scaleX(1f).scaleY(1f).setDuration(150).start();
+        });
+
+        if (googleRecognizer != null) {
+            try {
+                googleRecognizer.destroy();
+            } catch (Exception ignored) {}
+            googleRecognizer = null;
+        }
+
+        // wait a bit before re-creating recognizer
+        txtRecognized.postDelayed(() -> {
+            googleRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "de-DE");
+            intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);
+            intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+
+            googleRecognizer.setRecognitionListener(new android.speech.RecognitionListener() {
+                @Override public void onResults(Bundle results) {
+                    ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                    if (matches != null && !matches.isEmpty()) {
+                        String text = matches.get(0);
+                        txtRecognized.setText(text);
+                        translateAndSpeakInstant(text);
+                    }
+                    if (keepGoogleListening) txtRecognized.postDelayed(this::restart, 800);
+                }
+
+                private void restart() { restartGoogleSTT(); }
+
+                @Override public void onPartialResults(Bundle partialResults) {
+                    ArrayList<String> partial = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                    if (partial != null && !partial.isEmpty())
+                        txtRecognized.setText(partial.get(0));
+                }
+
+                @Override public void onError(int error) {
+                    if (keepGoogleListening)
+                        txtRecognized.postDelayed(this::restart, 1000); // wait longer between retries
+                }
+
+                @Override public void onRmsChanged(float rmsdB) {
+                    runOnUiThread(() -> {
+                        float scale = 1f + (rmsdB / 10f);
+                        scale = Math.max(1f, Math.min(scale, 1.3f));
+                        logoShape.animate()
+                                .scaleX(scale)
+                                .scaleY(scale)
+                                .setDuration(100)
+                                .start();
+                    });
+                }
+
+                @Override public void onReadyForSpeech(Bundle params) {}
+                @Override public void onBeginningOfSpeech() {}
+                @Override public void onBufferReceived(byte[] buffer) {}
+                @Override public void onEndOfSpeech() {}
+                @Override public void onEvent(int eventType, Bundle params) {}
+            });
+
+            googleRecognizer.startListening(intent);
+        }, 600); // <-- add 600ms delay to stabilize
+    }
+
+
+    private void handleNewPhrase(String phrase) {
+        if (phrase.isEmpty()) return;
+        long now = System.currentTimeMillis();
+        if (!phrase.equalsIgnoreCase(lastSpoken) && now - lastSpeakTime > 1500) {
+            lastSpoken = phrase;
+            lastSpeakTime = now;
+            translateAndSpeakInstant(phrase);
+        }
+    }
+
+    private void initTranslator() {
+        String sourceLang = selectedEngine.equals("google")
+                ? TranslateLanguage.GERMAN   // Google STT uses German
+                : TranslateLanguage.ENGLISH;  // Vosk uses English
+
+        TranslatorOptions options = new TranslatorOptions.Builder()
+                .setSourceLanguage(sourceLang)
+                .setTargetLanguage(selectedTargetLanguage) // usually Farsi
+                .build();
+
+        if (translator != null) translator.close();
+        translator = Translation.getClient(options);
+        translator.downloadModelIfNeeded()
+                .addOnSuccessListener(unused -> translatorReady = true)
+                .addOnFailureListener(e -> toast("❌ Translator init failed"));
+    }
+
+
+    private void translateAndSpeakInstant(String phrase) {
+        if (!translatorReady || phrase.isEmpty() || translationRunning) return;
+        translationRunning = true;
+
+        translationExecutor.execute(() -> {
+            translator.translate(phrase)
+                    .addOnSuccessListener(translated -> {
+                        runOnUiThread(() -> txtTranslated.setText(translated));
+                        speakTranslated(translated);
+                    })
+                    .addOnCompleteListener(task -> translationRunning = false)
+                    .addOnFailureListener(e -> translationRunning = false);
+        });
+    }
+
+    private void initializeTTSSpeakEngine() {
+        try {
+            CheckVoiceData.installVoiceDataIfMissing(this);
+            ttsEspeakEngine = new SpeechSynthesis(this, null);
+            File dir = CheckVoiceData.getDataPath(this);
+            ttsEspeakEngine.nativeCreate(dir.getAbsolutePath());
+            ttsEspeakEngine.nativeSetVoiceByName("fa");
+            ttsEspeakEngine.Rate.setValue(selectedSpeed);
+            ttsEspeakEngine.Pitch.setValue(selectedPitch);
+        } catch (Exception e) { Log.e(TAG, "Engine init failed", e); }
+    }
+
+    private void speakTranslated(String text) {
+        if (ttsEspeakEngine == null || text.isEmpty() || isSpeaking) return;
+        isSpeaking = true;
+        ttsExecutor.execute(() -> {
+            try {
+                String voiceCode = selectedTargetLanguage.equals(TranslateLanguage.HINDI) ? "hi" :
+                        selectedTargetLanguage.equals(TranslateLanguage.ENGLISH) ? "en" : "fa";
+                ttsEspeakEngine.nativeSetVoiceByName(voiceCode);
+                ttsEspeakEngine.Pitch.setValue(selectedPitch);
+                ttsEspeakEngine.synthesize(text, false);
+            } catch (Exception e) { Log.e(TAG, "Speak failed: " + e.getMessage()); }
+            finally { isSpeaking = false; }
+        });
+    }
+
+    private void toggleLiveTranslate() {
+        if (!isListening) {
+            isListening = true;
+            btnMic.setBackgroundColor(getResources().getColor(R.color.live_active));
+            btnMic.setText("🛑 Stop Live Translate");
+
+            if ("google".equals(selectedEngine)) startGoogleSTT();
+            else startVoskListening();
+
+            toast("🎤 Listening started");
+        } else {
+            isListening = false;
+            btnMic.setBackgroundColor(getResources().getColor(R.color.live_inactive));
+            btnMic.setText("🎙 Live Translate");
+            stopEverything();
+            logoShape.setScaleX(1f);
+            logoShape.setScaleY(1f);
+
+            toast("🛑 Listening stopped");
+        }
+    }
+
+    private void stopEverything() {
+        if (googleRecognizer != null) {
+            keepGoogleListening = false;
+            googleRecognizer.cancel();
+            googleRecognizer.destroy();
+            googleRecognizer = null;
+        }
+
+    }
+    private void updateMicAnimation(float rmsdB) {
+        runOnUiThread(() -> {
+            float scale = 1f + (rmsdB / 10f);
+            scale = Math.max(1f, Math.min(scale, 1.5f));
+            logoShape.animate()
+                    .scaleX(scale)
+                    .scaleY(scale)
+                    .setDuration(100)
+                    .start();
+        });
+    }
+
+    private void updateButtonState(Button btn, boolean enabled, String label) {
+        int color = getResources().getColor(enabled ? R.color.live_active : R.color.live_inactive);
+        btn.setBackgroundColor(color);
+        btn.setText(label + (enabled ? "ON" : "OFF"));
+    }
+
+    private void toggleButton(Button btn, String label, SharedPreferences prefs, String key, java.util.function.Consumer<Boolean> setter) {
+        boolean newState = !(btn.getText().toString().endsWith("ON"));
+        setter.accept(newState);
+        updateButtonState(btn, newState, label);
+        prefs.edit().putBoolean(key, newState).apply();
+    }
+
+    private void appendRaw(String msg) {
+        runOnUiThread(() -> {
+            String existing = txtVoskRaw.getText().toString();
+            // 🧩 Newest line first, old ones move down
+            String updated = msg + "\n" + existing;
+
+            txtVoskRaw.setText(updated);
+
+            // optional: keep it tidy — limit to 2000 chars
+            if (updated.length() > 2000) {
+                txtVoskRaw.setText(updated.substring(0, 2000));
             }
         });
-
-        // 🧩 Insert SSML
-        Button ssml = findViewById(R.id.ssml);
-        ssml.setOnClickListener(v -> {
-            String ssmlText =
-                    "<?xml version=\"1.0\"?>\n" +
-                            "<speak xmlns=\"http://www.w3.org/2001/10/synthesis\" version=\"1.0\">\n" +
-                            "  <p>Hallo, dies ist eSpeak, das selbst spricht!</p>\n" +
-                            "</speak>";
-            mText.setText(ssmlText);
-        });
-
-        // 🎙 Mic button
-        Button btnMic = findViewById(R.id.btnMic);
-        btnMic.setOnClickListener(v -> ensureMicPermission());
-
-        // 🧭 Open Vosk demo screen
-        Button openVosk = findViewById(R.id.open_vosk);
-        openVosk.setOnClickListener(v -> {
-            android.content.Intent intent = new android.content.Intent(this, VoskActivity.class);
-            startActivity(intent);
-        });
-
-
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        setState(State.SUCCESS);
-        populateInformationView();
+    private void toast(String msg) { runOnUiThread(() -> Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()); }
+
+    private int langToIndex(String lang) {
+        switch (lang) {
+            case TranslateLanguage.HINDI: return 1;
+            case TranslateLanguage.ENGLISH: return 2;
+            default: return 0;
+        }
     }
 
+    private String indexToLang(int idx) {
+        switch (idx) {
+            case 1: return TranslateLanguage.HINDI;
+            case 2: return TranslateLanguage.ENGLISH;
+            default: return TranslateLanguage.PERSIAN;
+        }
+    }
     @Override
     protected void onStop() {
         super.onStop();
-        if (mSynth != null) mSynth.stop();
-        if (recognizer != null) recognizer.stopListening();
+        if (wakeLock != null && wakeLock.isHeld()) {
+            wakeLock.release();
+        }
     }
 
-    @Override
-    protected void onDestroy() {
+    @Override protected void onDestroy() {
         super.onDestroy();
+        stopEverything();
         if (translator != null) translator.close();
-        if (recognizer != null) recognizer.destroy();
-        if (mSynth != null) mSynth.stop();
+        if (wakeLock != null && wakeLock.isHeld()) wakeLock.release();
+        translationExecutor.shutdownNow();
+        ttsExecutor.shutdownNow();
     }
 
-    // ---------------- TRANSLATOR ----------------
-
-
-
-    private void initTranslator() {
-        TranslatorOptions options = new TranslatorOptions.Builder()
-                .setSourceLanguage(TranslateLanguage.GERMAN)
-                .setTargetLanguage(TranslateLanguage.PERSIAN)
-                .build();
-        translator = Translation.getClient(options);
-
-        translator.downloadModelIfNeeded()
-                .addOnSuccessListener(unused -> toast("✅ Translator ready (DE → FA)"))
-                .addOnFailureListener(e -> toast("❌ Translator init failed"));
+    @Override protected void onPause() {
+        super.onPause();
+        if (wakeLock != null && wakeLock.isHeld()) wakeLock.release();
     }
-    private void translateAndSpeakInstant(String germanWord) {
-        long now = System.currentTimeMillis();
-        if (now - lastSpeakTime < 600) return; // small delay limiter
-        lastSpeakTime = now;
-
-        translator.translate(germanWord)
-                .addOnSuccessListener(farsi -> {
-                    String normalized = normalizeFarsi(farsi);
-                    runOnUiThread(() -> {
-                        txtTranslated.append(normalized + " ");
-                    });
-
-                    if (mSynth != null) {
-                        setPersianVoice();
-                        mSynth.synthesize(normalized, false);
-                    }
-                })
-                .addOnFailureListener(e -> Log.w(TAG, "Instant translation failed: " + e.getMessage()));
-    }
-    // ---------------- RECOGNIZER ----------------
-
-    private void initRecognizer() {
-        if (!SpeechRecognizer.isRecognitionAvailable(this)) {
-            toast("Speech recognition not available ❌");
-            return;
-        }
-
-        recognizer = SpeechRecognizer.createSpeechRecognizer(this);
-        recognizer.setRecognitionListener(new RecognitionListener() {
-            @Override public void onReadyForSpeech(Bundle params) { toast("🎤 Ready — speak now…"); }
-            @Override public void onBeginningOfSpeech() { toast("🎧 Listening…"); }
-            @Override public void onRmsChanged(float rmsdB) {
-                int level = Math.min(Math.max((int) rmsdB, 0), 12);
-                progressBar.setProgress(level);
-            }
-            @Override public void onBufferReceived(byte[] buffer) {}
-            @Override public void onEndOfSpeech() { toast("🌀 Processing…"); }
-
-            @Override
-            public void onError(int error) {
-                Log.w(TAG, "Speech error: " + error);
-                isListening = false;
-                restartRecognizerAfterDelay();
-            }
-
-
-            @Override
-            public void onPartialResults(Bundle partialResults) {
-                List<String> list = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                if (list == null || list.isEmpty()) return;
-
-                String currentGerman = list.get(0).trim();
-                runOnUiThread(() -> txtRecognized.setText(currentGerman));
-                processBufferedWords(currentGerman);
-            }
-
-
-            @Override
-            public void onResults(Bundle results) {
-                List<String> list = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                if (list != null && !list.isEmpty()) {
-                    String finalGerman = list.get(0);
-                    handleFinalResult(finalGerman);
-                }
-                isListening = false;
-                if (continuous) restartRecognizerAfterDelay();
-            }
-
-            @Override public void onEvent(int eventType, Bundle params) {}
-        });
-    }
-
-    // ---------------- SPEECH FLOW ----------------
-    private void processBufferedWords(String currentGerman) {
-        if (currentGerman.equalsIgnoreCase(lastPartial)) return; // prevent repeats
-        lastPartial = currentGerman;
-
-        String[] words = currentGerman.split("\\s+");
-        if (words.length == 0) return;
-
-        // get the last recognized word
-        String lastWord = words[words.length - 1];
-
-        // if it's new, add to buffer
-        if (wordBuffer.isEmpty() || !wordBuffer.get(wordBuffer.size() - 1).equalsIgnoreCase(lastWord)) {
-            wordBuffer.add(lastWord);
-        }
-
-        // speak every 3 words
-        if (wordBuffer.size() >= WORD_CHUNK_SIZE) {
-            String chunk = String.join(" ", wordBuffer);
-            wordBuffer.clear(); // reset buffer
-            translateAndSpeakChunk(chunk);
-        }
-    }
-
-    private void translateAndSpeakChunk(String germanChunk) {
-        translator.translate(germanChunk)
-                .addOnSuccessListener(farsi -> {
-                    String normalized = normalizeFarsi(farsi);
-                    runOnUiThread(() -> txtTranslated.append(normalized + " "));
-                    if (mSynth != null) {
-                        setPersianVoice();
-                        mSynth.synthesize(normalized, false);
-                    }
-                })
-                .addOnFailureListener(e -> Log.w(TAG, "Chunk translation failed: " + e.getMessage()));
-    }
-
-    private void handleFinalResult(String germanText) {
-        runOnUiThread(() -> txtRecognized.setText(germanText));
-        translator.translate(germanText)
-                .addOnSuccessListener(farsi -> {
-                    String normalized = normalizeFarsi(farsi);
-                    runOnUiThread(() -> txtTranslated.setText(normalized));
-                    if (mSynth != null) {
-                        setPersianVoice();
-                        mSynth.synthesize(normalized, false);
-                    }
-                })
-                .addOnFailureListener(e -> toast("❌ Translation failed: " + e.getMessage()));
-    }
-
-    private void restartRecognizerAfterDelay() {
-        handler.postDelayed(() -> {
-            if (!isListening) startListening();
-        }, 1000);
-    }
-
-    private void startListening() {
-        if (isListening) return;
-        isListening = true;
-        txtRecognized.setText("");
-        txtTranslated.setText("");
-        android.content.Intent intent = new android.content.Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "de-DE");
-        recognizer.startListening(intent);
-    }
-
-    private void ensureMicPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQ_MIC);
-        } else startListening();
-    }
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] perms, int[] results) {
-        super.onRequestPermissionsResult(requestCode, perms, results);
-        if (requestCode == REQ_MIC && results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED)
-            startListening();
-        else toast("❌ Microphone permission denied");
-    }
-
-    // ---------------- ESPEAK ENGINE ----------------
-
-    private void initializeEngine() {
-        try {
-            CheckVoiceData.installVoiceDataIfMissing(this);
-            mSynth = new SpeechSynthesis(this, null);
-            File dataDir = CheckVoiceData.getDataPath(this);
-            mSynth.nativeCreate(dataDir.getAbsolutePath());
-
-            // Log available voices to find the Persian one
-            List<Voice> voices = mSynth.getAvailableVoices();
-            for (Voice v : voices) {
-                Log.i(TAG, "Voice available → " + v.name + " | ID=" + v.identifier);
-            }
-
-            Log.i(TAG, "eSpeak engine initialized ✅");
-            setState(State.SUCCESS);
-        } catch (Exception e) {
-            Log.e(TAG, "Engine initialization failed: " + e.getMessage(), e);
-            setState(State.ERROR);
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 101 && grantResults.length > 0 && grantResults[0] ==
+                android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            recreate(); // restart activity to proceed normally
+        } else {
+            Toast.makeText(this, "Microphone permission required", Toast.LENGTH_LONG).show();
+            finish();
         }
     }
 
-    private void setPersianVoice() {
-        try {
-            boolean ok = mSynth.nativeSetVoiceByName("fa+fa1");
-            if (!ok) {
-                ok = mSynth.nativeSetVoiceByName("fa");
-            }
-            Log.i(TAG, "Switching to Persian voice (fa/fa1): " + ok);
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to set Persian voice: " + e.getMessage());
-        }
-    }
 
-    private void installVoiceDataIfMissing(Context context) {
-        File dataPath = CheckVoiceData.getDataPath(context);
-        if (CheckVoiceData.hasBaseResources(context)) {
-            Log.v(TAG, "eSpeak data already installed");
-            return;
-        }
-        try {
-            AssetManager am = context.getAssets();
-            copyAssetFolder(am, "espeak-ng-data", dataPath.getAbsolutePath());
-            Log.v(TAG, "eSpeak voice data installed ✅");
-        } catch (Exception e) {
-            Log.e(TAG, "Voice data installation failed: " + e.getMessage(), e);
-        }
-    }
-
-    private static boolean copyAssetFolder(AssetManager am, String from, String to) throws IOException {
-        String[] assets = am.list(from);
-        if (assets == null) return false;
-        File dir = new File(to);
-        if (!dir.exists()) dir.mkdirs();
-        for (String asset : assets) {
-            String subFrom = from + "/" + asset;
-            String subTo = to + "/" + asset;
-            String[] list = am.list(subFrom);
-            if (list != null && list.length > 0) copyAssetFolder(am, subFrom, subTo);
-            else copyAsset(am, subFrom, subTo);
-        }
-        return true;
-    }
-
-    private static void copyAsset(AssetManager am, String from, String to) throws IOException {
-        try (InputStream in = am.open(from);
-             OutputStream out = new FileOutputStream(new File(to))) {
-            byte[] buffer = new byte[4096];
-            int read;
-            while ((read = in.read(buffer)) != -1) out.write(buffer, 0, read);
-        }
-    }
-
-    // ---------------- HELPERS ----------------
-
-    private String normalizeFarsi(String input) {
-        if (input == null) return "";
-        return input.replace('ي', 'ی').replace('ك', 'ک');
-    }
-
-    private void populateInformationView() {
-        mInformation.clear();
-        mInformation.add(new Pair<>("Available voices", Integer.toString(SpeechSynthesis.getVoiceCount())));
-        mInformation.add(new Pair<>("Version", SpeechSynthesis.getVersion()));
-        mInformation.add(new Pair<>("Status", "eSpeak active (self-contained + translation)"));
-        mInformationView.notifyDataSetChanged();
-    }
-
-    private void setState(State state) {
-        mState = state;
-        findViewById(R.id.loading).setVisibility(state == State.LOADING ? View.VISIBLE : View.GONE);
-        findViewById(R.id.success).setVisibility(state == State.SUCCESS ? View.VISIBLE : View.GONE);
-    }
-
-    private void toast(String msg) {
-        runOnUiThread(() -> Toast.makeText(this, msg, Toast.LENGTH_SHORT).show());
-    }
-
-
-}
+}  

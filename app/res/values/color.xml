@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="live_active">#E74C3C</color> <!-- red -->
+    <color name="live_inactive">#3498DB</color> <!-- blue -->
+    <color name="purple_bg">#5E2B97</color>
+    <color name="purple_light">#9B5DE5</color>
+    <color name="purple_accent">#C77DFF</color>
+    <color name="white">#FFFFFF</color>
+</resources>
+
